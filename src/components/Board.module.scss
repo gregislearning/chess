@@ -1,0 +1,18 @@
+.board {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  .whiteTile, .blackTile {
+    border: 1px solid black;
+    width: 50px;
+    max-height: 50px;
+    &:not(.whiteTile) {
+      background-color: black;
+    }
+  }
+}
+
+.isSelected {
+  background-color: purple !important;
+}
