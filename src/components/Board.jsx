@@ -2,15 +2,22 @@ import React, { useEffect, useState, useContext } from 'react'
 import styles from './Board.module.scss'
 import Tile from './Tile'
 import ActiveTileContext from '../context/ActiveTileContext'
+import { useSelector, useDispatch } from 'react-redux'
 
 const Board = props => {
+  const dispatch = useDispatch()
   const { activeTile, setActiveTile } = useContext(ActiveTileContext) 
   const { outsideClick } = props
-  // const [activeTile, setActiveTile] = useState()
-  const tileIds = []
-  for (let i = 1; i < 9; i++) {
-  for (let j = 97; j < 104; j++) {
-    tileIds.push(String.fromCharCode(j) + i)
+  let columns = new Array(8)
+  let tileIds = [...columns].map(() => [])
+
+  const possibleTiles = useSelector((state) => {
+    console.log(state.positions.possibleTiles)
+    return (state.positions.possibleTiles)
+  })
+  for (let i = 8; i > 0; i--) {
+    for (let j = 97; j < 105; j++) {
+      tileIds[i-1].push(String.fromCharCode(j) + i)
     }
   }
 
@@ -27,15 +34,47 @@ const Board = props => {
   
   return (
     <div className={styles.board} onClick={handleClick}>
-      {tileIds.map((tileId, index) => {
-        if (index % 2 === 0) {
-          return <Tile color='white' id={tileId} key={tileId} selected={activeTile} />
-        }
-        else {
-          return <Tile color='black' id={tileId} key={tileId} selected={activeTile}/>
-        }
-      })}
-      
+      {tileIds.reverse().map((tileRow, index) => {
+        return (
+          tileRow.map((tileId, secondIndex) => {
+            if (index % 2 === 0) {
+              //if index is even, start with black
+              //if secondIndex is even, black
+              if (secondIndex % 2 === 0) {
+                return <Tile 
+                color='black'
+                id={tileId}
+                key={tileId}
+                selected={activeTile}
+                possibleTiles={possibleTiles} />
+            }
+            return <Tile 
+                color='white'
+                id={tileId}
+                key={tileId}
+                selected={activeTile}
+                possibleTiles={possibleTiles} />
+            }
+            else {
+              if (secondIndex % 2 === 0) {
+                return <Tile
+                color='white'
+                id={tileId}
+                key={tileId}
+                selected={activeTile}
+                possibleTiles={possibleTiles}/>
+              }
+              return <Tile
+                color='black'
+                id={tileId}
+                key={tileId}
+                selected={activeTile}
+                possibleTiles={possibleTiles}/>
+            }
+          }
+        )
+      )}
+    )}
     </div>
   )
 }

@@ -13,7 +13,7 @@ function App() {
   const [outsideClick, setOutsideClick] = useState(false)
 
   const updatePosition = useSelector((state) => {
-    console.log(state.positions.position)
+    // console.log(state.positions.position)
     return state.positions.position
   })
   const useOutsideAlerter = ref => {

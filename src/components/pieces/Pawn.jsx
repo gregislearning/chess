@@ -5,6 +5,7 @@ import ActiveTileContext from '../../context/ActiveTileContext'
 import { useSelector, useDispatch } from "react-redux";
 
 const Pawn = props => {
+
   const dispatch = useDispatch()
 
   const updatePosition = useSelector((state) => {
@@ -12,7 +13,8 @@ const Pawn = props => {
     return state.positions.position
   })
   const showPossiblePositions = useSelector((state) => {
-    console.log(state)
+    // console.log(state.positions.possibleTiles)
+    // setPotentialTiles(state.positions.potentialTiles)
   })
   const {activeTile, setActiveTile} = useContext(ActiveTileContext)
   const { id } = props
@@ -27,8 +29,8 @@ const Pawn = props => {
   const handleClick = (e) => {
     dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
     dispatch ({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn"}})
-    console.log(updatePosition)
-    console.log(showPossiblePositions)
+    // console.log(updatePosition)
+    // console.log(showPossiblePositions)
     if (e.target.id === activeTile) {
       setActiveTile(null)
     }
