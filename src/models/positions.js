@@ -1,6 +1,6 @@
 export default {
   name: "positions",
-  state: { position: "", test:"" },
+  state: { position: ""},
   reducers: {
     updatePosition(state, payload) {
       return {...state, test: "test", position: payload.position}
@@ -13,6 +13,13 @@ export default {
         }
       }
       return {...state }
+    },
+    changePositions(state, payload) {
+      if (state.possibleTiles.indexOf(payload) !== -1) {
+        return {...state, move: "yes", position: payload}
+        // console.log("hello")  
+      }
+      return {...state, move: "no"}
     }
   }
 }

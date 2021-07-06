@@ -15,6 +15,10 @@ const Board = props => {
     // console.log(state.positions.possibleTiles)
     return activeTile !== null ? (state.positions.possibleTiles) : null
   })
+  const move = useSelector((state) => {
+    // console.log(state)
+    return state.positions.move
+  })
   for (let i = 8; i > 0; i--) {
     for (let j = 97; j < 105; j++) {
       tileIds[i-1].push(String.fromCharCode(j) + i)
@@ -23,7 +27,7 @@ const Board = props => {
 
   const handleClick = (e) => {
     if (activeTile) {
-      // dispatch({ type: "positions/showPossiblePositions", payload: })
+      dispatch({ type: "positions/changePositions", payload: e.target.id})
     }
   }
   useEffect(()=> {
@@ -31,6 +35,7 @@ const Board = props => {
       setActiveTile(null)
     }
   }, [outsideClick] )
+  console.log(move)
   
   return (
     <div className={styles.board} onClick={handleClick}>
