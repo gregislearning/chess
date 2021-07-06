@@ -12,8 +12,8 @@ const Board = props => {
   let tileIds = [...columns].map(() => [])
 
   const possibleTiles = useSelector((state) => {
-    console.log(state.positions.possibleTiles)
-    return (state.positions.possibleTiles)
+    // console.log(state.positions.possibleTiles)
+    return activeTile !== null ? (state.positions.possibleTiles) : null
   })
   for (let i = 8; i > 0; i--) {
     for (let j = 97; j < 105; j++) {
@@ -22,8 +22,8 @@ const Board = props => {
   }
 
   const handleClick = (e) => {
-    if (!activeTile) {
-      
+    if (activeTile) {
+      // dispatch({ type: "positions/showPossiblePositions", payload: })
     }
   }
   useEffect(()=> {

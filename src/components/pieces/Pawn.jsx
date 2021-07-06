@@ -14,7 +14,9 @@ const Pawn = props => {
   })
   const showPossiblePositions = useSelector((state) => {
     // console.log(state.positions.possibleTiles)
+    // console.log(state)
     // setPotentialTiles(state.positions.potentialTiles)
+    return state.positions
   })
   const {activeTile, setActiveTile} = useContext(ActiveTileContext)
   const { id } = props
@@ -27,16 +29,19 @@ const Pawn = props => {
     
   }
   const handleClick = (e) => {
-    dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
-    dispatch ({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn"}})
+    dispatch({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn"}})
+
+    // dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
     // console.log(updatePosition)
     // console.log(showPossiblePositions)
+  
     if (e.target.id === activeTile) {
       setActiveTile(null)
     }
     else {
       setActiveTile(e.target.id)
     }
+    // console.log(showPossiblePositions)
   }
   return (
     <img 
