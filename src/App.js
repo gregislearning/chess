@@ -5,6 +5,7 @@ import ActiveTileContext from './context/ActiveTileContext'
 import store from './models'
 import { Provider } from 'react-redux'
 import { useSelector, useDispatch } from "react-redux";
+import NewGame from './components/NewGame'
 
 function App() {
   const dispatch = useDispatch()
@@ -21,7 +22,7 @@ function App() {
       const handleClickOutside = (e) => {
         if (ref.current && !ref.current.contains(e.target)) {
           setOutsideClick(true)
-          dispatch({ type: "positions/updatePosition", payload: ''})
+          // dispatch({ type: "positions/updatePosition", payload: ''})
         }
         else {
           setOutsideClick(false)
@@ -40,6 +41,7 @@ function App() {
   
   return (
       <ActiveTileContext.Provider value={{activeTile, setActiveTile}}>
+        <NewGame />
         <div ref={boardRef} className={styles.App} >
           <Board outsideClick={outsideClick}/>
         </div>

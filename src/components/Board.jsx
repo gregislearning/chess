@@ -6,28 +6,38 @@ import { useSelector, useDispatch } from 'react-redux'
 
 const Board = props => {
   const dispatch = useDispatch()
+  const [isPieceSelected, setIsPieceSelected] = useState(false)
   const { activeTile, setActiveTile } = useContext(ActiveTileContext) 
   const { outsideClick } = props
   let columns = new Array(8)
   let tileIds = [...columns].map(() => [])
-
+  const currentPosition = useSelector((state) => {
+    return state.positions.position
+  })
+  // console.log(currentPosition)
   const possibleTiles = useSelector((state) => {
     // console.log(state.positions.possibleTiles)
     return activeTile !== null ? (state.positions.possibleTiles) : null
   })
-  const move = useSelector((state) => {
-    // console.log(state)
-    return state.positions.move
-  })
+
   for (let i = 8; i > 0; i--) {
     for (let j = 97; j < 105; j++) {
       tileIds[i-1].push(String.fromCharCode(j) + i)
     }
   }
 
-  const handleClick = (e) => {
-    if (activeTile) {
-      dispatch({ type: "positions/changePositions", payload: e.target.id})
+  const handleClick = e => {
+    if (e.target instanceof HTMLDivElement && isPieceSelected) {
+      console.log(`piece needs to be moved to ${e.target.id}`)
+      //dispatch
+      setIsPieceSelected(false)
+    }
+    else {
+      let pieceIdentifier = e.target.className.split("_")
+      if (pieceIdentifier.indexOf('Pieces') !== -1) {
+        setIsPieceSelected(true)
+      } 
+
     }
   }
   useEffect(()=> {
@@ -35,7 +45,6 @@ const Board = props => {
       setActiveTile(null)
     }
   }, [outsideClick] )
-  console.log(move)
   
   return (
     <div className={styles.board} onClick={handleClick}>
@@ -51,14 +60,16 @@ const Board = props => {
                 id={tileId}
                 key={tileId}
                 selected={activeTile}
-                possibleTiles={possibleTiles} />
+                possibleTiles={possibleTiles}
+                currentPosition={currentPosition} />
             }
             return <Tile 
                 color='white'
                 id={tileId}
                 key={tileId}
                 selected={activeTile}
-                possibleTiles={possibleTiles} />
+                possibleTiles={possibleTiles}
+                currentPosition={currentPosition} />
             }
             else {
               if (secondIndex % 2 === 0) {
@@ -67,14 +78,16 @@ const Board = props => {
                 id={tileId}
                 key={tileId}
                 selected={activeTile}
-                possibleTiles={possibleTiles}/>
+                possibleTiles={possibleTiles}
+                currentPosition={currentPosition}/>
               }
               return <Tile
                 color='black'
                 id={tileId}
                 key={tileId}
                 selected={activeTile}
-                possibleTiles={possibleTiles}/>
+                possibleTiles={possibleTiles}
+                currentPosition={currentPosition}/>
             }
           }
         )

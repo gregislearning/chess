@@ -1,9 +1,9 @@
 export default {
   name: "positions",
-  state: { position: ""},
+  state: { position: "", possibleTiles: "", piece: ""},
   reducers: {
     updatePosition(state, payload) {
-      return {...state, test: "test", position: payload.position}
+      return {...state, position: payload.position, piece: payload.piece}
     },
     showPossiblePositions(state, payload) {
       if (payload.piece === "pawn") {
@@ -16,10 +16,9 @@ export default {
     },
     changePositions(state, payload) {
       if (state.possibleTiles.indexOf(payload) !== -1) {
-        return {...state, move: "yes", position: payload}
-        // console.log("hello")  
+        return {...state, position: payload}
       }
-      return {...state, move: "no"}
+      return {...state}
     }
   }
 }

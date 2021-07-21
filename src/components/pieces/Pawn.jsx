@@ -35,9 +35,10 @@ const Pawn = props => {
     ]
   
   const handleClick = (e) => {
+    // dispatch({ type: 'test/test', payload: {message: "test"}})
+    dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
     dispatch({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn"}})
 
-    dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
     // console.log(updatePosition)
     // console.log(showPossiblePositions)
   
@@ -47,7 +48,7 @@ const Pawn = props => {
     else {
       setActiveTile(e.target.id)
     }
-    // console.log(showPossiblePositions)
+    // console.log(currentPosition1)
   }
   return (
     <img 
