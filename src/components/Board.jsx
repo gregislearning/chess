@@ -12,7 +12,7 @@ const Board = props => {
   let columns = new Array(8)
   let tileIds = [...columns].map(() => [])
   const currentPosition = useSelector((state) => {
-    return state.positions.position
+    return state.positions
   })
   // console.log(currentPosition)
   const possibleTiles = useSelector((state) => {
@@ -28,7 +28,13 @@ const Board = props => {
 
   const handleClick = e => {
     if (e.target instanceof HTMLDivElement && isPieceSelected) {
-      console.log(`piece needs to be moved to ${e.target.id}`)
+      if (possibleTiles.indexOf(e.target.id) !== -1) {
+        console.log(`piece needs to be moved to ${e.target.id}`)
+        dispatch({type:'updatePosition', payload: {position: e.target.id, piece: 'pawn'}})
+      }
+      else {
+        console.log('not a possible position')
+      }
       //dispatch
       setIsPieceSelected(false)
     }
@@ -37,14 +43,15 @@ const Board = props => {
       if (pieceIdentifier.indexOf('Pieces') !== -1) {
         setIsPieceSelected(true)
       } 
-
     }
   }
   useEffect(()=> {
     if (outsideClick) {
       setActiveTile(null)
+      setIsPieceSelected(false)
     }
   }, [outsideClick] )
+  console.log(currentPosition)
   
   return (
     <div className={styles.board} onClick={handleClick}>
