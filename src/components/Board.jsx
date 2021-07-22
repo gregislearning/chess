@@ -27,10 +27,14 @@ const Board = props => {
   }
 
   const handleClick = e => {
+    // dispatch({type:'move/movePawn', payload: {prevPosition: activeTile}})
+
     if (e.target instanceof HTMLDivElement && isPieceSelected) {
       if (possibleTiles.indexOf(e.target.id) !== -1) {
-        console.log(`piece needs to be moved to ${e.target.id}`)
-        dispatch({type:'updatePosition', payload: {position: e.target.id, piece: 'pawn'}})
+        // console.log(`piece needs to be moved to ${e.target.id}`)
+        // console.log(activeTile)
+        dispatch({type:'move/movePawn', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
+        // dispatch({type:'positions/updatePosition', payload: {position: e.target.id, piece: 'pawn'}})
       }
       else {
         console.log('not a possible position')

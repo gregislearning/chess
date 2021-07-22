@@ -1,10 +1,10 @@
 import { init } from '@rematch/core'
 import positions from './positions'
-import test from './test'
+import move from './move'
 const store = init({
   models: {
     positions,
-    test
+    move
   }
 })
 
