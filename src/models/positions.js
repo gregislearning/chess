@@ -9,16 +9,10 @@ export default {
       if (payload.piece === "pawn") {
         if (payload.position.split('')[1] === "2") {
           let file = payload.position.split('')[0]
-          return {...state, position: payload.position, test:"test2", possibleTiles:[file + 3, file + 4]}
+          return {...state, position: payload.position, possibleTiles:[file + 3, file + 4]}
         }
       }
       return {...state }
     },
-    changePositions(state, payload) {
-      if (state.possibleTiles.indexOf(payload) !== -1) {
-        return {...state, position: payload}
-      }
-      return {...state}
-    }
   }
 }
