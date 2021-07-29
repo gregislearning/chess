@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import ActiveTileContext from '../context/ActiveTileContext'
 import styles from './Board.module.scss'
 import cx from 'classnames'
 import Piece from './pieces/Piece'
@@ -8,7 +9,8 @@ import { useEffect } from 'react'
 const Tile = (props) => {
   const dispatch = useDispatch()
   const { color, id, selected, possibleTiles, currentPosition } = props
-  // console.log(currentPosition)
+  const { activeTile, setActiveTile } = useContext(ActiveTileContext) 
+
   // const currentPosition = useSelector((state) => {
   //   return state.positions.position
   // })
@@ -16,23 +18,7 @@ const Tile = (props) => {
     return state.move
   })
   // console.log(boardState)
-  
   let isPossible = possibleTiles ? possibleTiles.indexOf(id) !== -1 ? true : false : null
-  const handleClick = e => {
-    if (id === e.target.id) {
-      if (e.target instanceof HTMLDivElement) {
-        //piece doesnt exist here, potential move spot
-        //if currentPosition is not undefined
-        // console.log(selected)
-        // console.log('div')
-      }
-      else {
-        // console.log(color)
-        // console.log(selected)
-      }
-      // console.log(e.target )
-    }
-  }
 
   return (
     <div 
@@ -42,7 +28,6 @@ const Tile = (props) => {
         [styles.whiteTile]: color === 'white',
         [styles.blackTile]: color === 'black',
         [styles.possibleTiles]: isPossible})}
-      onClick={handleClick}
     >
       {boardState.map(tile => {
         if (tile.position === id && tile.status.piece !== "none") {
