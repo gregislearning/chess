@@ -46,7 +46,7 @@ const Tile = (props) => {
     >
       {boardState.map(tile => {
         if (tile.position === id && tile.status.piece !== "none") {
-          return <Piece key={id} id={id} piece={tile.status.piece} />
+          return <Piece key={id} color={tile.status.color} id={id} piece={tile.status.piece} />
         }
       })}
     </div>

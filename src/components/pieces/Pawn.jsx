@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
-import pawn from '../../media/pieces/pawn.png'
+import whitePawn from '../../media/pieces/white-pawn.png'
+import blackPawn from '../../media/pieces/black-pawn.png'
 import styles from './Pieces.module.scss'
 import ActiveTileContext from '../../context/ActiveTileContext'
 import { useSelector, useDispatch } from "react-redux";
@@ -21,7 +22,7 @@ const Pawn = props => {
   
   
   const {activeTile, setActiveTile} = useContext(ActiveTileContext)
-  let { id } = props
+  let { id, color } = props
 
   const move = useSelector((state) => {
     if (state.positions.move === "yes") {
@@ -36,7 +37,7 @@ const Pawn = props => {
   
   const handleClick = (e) => {
     dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
-    dispatch({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn"}})
+    dispatch({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn", color: color}})
 
     // console.log(updatePosition)
     // console.log(showPossiblePositions)
@@ -51,7 +52,7 @@ const Pawn = props => {
   }
   return (
     <img 
-      src={pawn}
+      src={color === 'white' ? whitePawn : blackPawn}
       className={styles.pawn}
       onClick={handleClick}
       id={id}/>
