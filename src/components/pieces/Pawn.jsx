@@ -37,7 +37,7 @@ const Pawn = props => {
   
   const handleClick = (e) => {
     dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
-    dispatch({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn"}})
+    dispatch({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn", color: color}})
 
     // console.log(updatePosition)
     // console.log(showPossiblePositions)
