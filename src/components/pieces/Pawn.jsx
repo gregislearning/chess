@@ -8,47 +8,31 @@ import { useSelector, useDispatch } from "react-redux";
 const Pawn = props => {
 
   const dispatch = useDispatch()
-
-  const updatePosition = useSelector((state) => {
-    // console.log(state.positions.position)
-    return state.positions.position
-  })
-  const showPossiblePositions = useSelector((state) => {
-    // console.log(state.positions.possibleTiles)
-    // console.log(state)
-    // setPotentialTiles(state.positions.potentialTiles)
-    return state.positions
-  })
-  
   
   const {activeTile, setActiveTile} = useContext(ActiveTileContext)
   let { id, color } = props
-
-  const move = useSelector((state) => {
-    if (state.positions.move === "yes") {
-      id = state.positions.positions
-    }
-  })
   
   let currentPosition = id
+  const boardState = useSelector(state => {
+    return state.boardState
+  })
   
-  const possilbeMoves = [
-    ]
-  
-  const handleClick = (e) => {
+  const handleClick = e => {
     dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
-    dispatch({ type: "positions/showPossiblePositions", payload: {position: currentPosition, piece: "pawn", color: color}})
+    dispatch({ 
+      type: "positions/showPossiblePositions", 
+      payload: {
+        position: currentPosition, 
+        piece: "pawn", 
+        color: color,
+        boardState: boardState}})
 
-    // console.log(updatePosition)
-    // console.log(showPossiblePositions)
-  
     if (e.target.id === activeTile) {
       setActiveTile(null)
     }
     else {
       setActiveTile(e.target.id)
     }
-    // console.log(currentPosition1)
   }
   return (
     <img 

@@ -1,7 +1,7 @@
 export default {
-  name: 'move',
-  state: [{
-    position: "a2", status: {
+  name: 'boardState',
+  state: [
+    {position: "a2", status: {
       piece: "pawn", color: "white"}},
     {position: "b2", status: {
       piece: "pawn", color: "white"}},
@@ -32,7 +32,15 @@ export default {
     {position: "g7", status:
     { piece: "pawn", color: "black"}},
     {position: "h7", status:
-    { piece: "pawn", color: "black"}}
+    { piece: "pawn", color: "black"}},
+    {position: "a1", status: 
+    { piece: "rook", color: "white"}},
+    {position: "a8", status: 
+    { piece: "rook", color: "black"}},
+    {position: "h1", status: 
+    { piece: "rook", color: "white"}},
+    {position: "h8", status: 
+    { piece: "rook", color: "black"}},
   ],
   reducers: {
     movePawn(state, payload) {

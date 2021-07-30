@@ -28,7 +28,7 @@ const Board = props => {
     
     if (e.target instanceof HTMLDivElement && isPieceSelected) {
       if (possibleTiles.indexOf(e.target.id) !== -1) {
-        dispatch({type:'move/movePawn', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
+        dispatch({type:'boardState/movePawn', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
       }
       else {
         console.log('not a possible position')
