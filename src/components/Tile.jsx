@@ -15,7 +15,7 @@ const Tile = (props) => {
   //   return state.positions.position
   // })
   const boardState = useSelector(state => {
-    return state.move
+    return state.boardState
   })
   // console.log(boardState)
   let isPossible = possibleTiles ? possibleTiles.indexOf(id) !== -1 ? true : false : null
