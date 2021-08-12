@@ -27,8 +27,9 @@ const Board = props => {
   const handleClick = e => {
     
     if (e.target instanceof HTMLDivElement && isPieceSelected) {
-      if (possibleTiles.indexOf(e.target.id) !== -1) {
-        dispatch({type:'boardState/movePawn', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
+
+      if (possibleTiles && possibleTiles.indexOf(e.target.id) !== -1) {
+        dispatch({type:'boardState/move', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
       }
       else {
         console.log('not a possible position')
@@ -49,7 +50,6 @@ const Board = props => {
       setIsPieceSelected(false)
     }
   }, [outsideClick] )
-  console.log(isPieceSelected)
   return (
     <div className={styles.board} onClick={handleClick}>
       {tileIds.reverse().map((tileRow, index) => {
