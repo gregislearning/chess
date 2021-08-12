@@ -10,10 +10,27 @@ const Rook = props => {
   const {activeTile, setActiveTile} = useContext(ActiveTileContext)
   const { id, color } = props
   let currentPosition = id
+  const boardState = useSelector(state => {
+    return state.boardState
+  })
 
   const handleClick = e => {
-    dispatch({ type:"positions/showPossiblePositions", payload: {position: currentPosition, piece: "rook", color: color}})
-
+    dispatch({ 
+      type:"positions/showPossiblePositions", 
+      payload: 
+        {
+          position: currentPosition, 
+          piece: "rook", 
+          color: color,
+          boardState: boardState
+        }
+      })
+    if (e.target.id === activeTile) {
+      setActiveTile(null)
+    }
+    else {
+      setActiveTile(e.target.id)
+    }
   }
   return (
     <img 

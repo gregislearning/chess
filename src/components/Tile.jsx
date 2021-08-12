@@ -19,7 +19,6 @@ const Tile = (props) => {
   })
   // console.log(boardState)
   let isPossible = possibleTiles ? possibleTiles.indexOf(id) !== -1 ? true : false : null
-
   return (
     <div 
       color={color} 

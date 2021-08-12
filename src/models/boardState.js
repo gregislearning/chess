@@ -43,7 +43,7 @@ export default {
     { piece: "rook", color: "black"}},
   ],
   reducers: {
-    movePawn(state, payload) {
+    move(state, payload) {
       //something like prevPositoin: a2, position: a4, piece: pawn, color: white
       for (let i = 0; i < state.length; i++) {
         if (payload.prevPosition === state[i].position) {
