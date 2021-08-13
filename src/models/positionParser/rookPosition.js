@@ -5,6 +5,7 @@ let row = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 //array 1-8
 let column = Array.from({length: 8}, (el, index) => index + 1)
 
+//detects all pieces in a potential moves array
 const conflictParser = array => {
   return array.map(square => {
     if (occupiedPositions.indexOf(square) !== -1) {
@@ -12,7 +13,7 @@ const conflictParser = array => {
     }
   }).filter(element => element !== undefined).map(square => {
     let arrayDigit = square.split('')[1]
-    return Math.abs(arrayDigit - positionDigit)
+    return parseInt(arrayDigit)
   })
 }
 
@@ -32,13 +33,32 @@ const rookPosition = (piece, position, boardState) => {
   let possibleRookColumn = slicedColumn.map((element, index) => positionLetter + slicedColumn[index])
   let possibleRookRow = slicedRow.map((element) => element + String(positionDigit))
   //detect blocked tiles
-  console.log(conflictParser(possibleRookColumn))
-  let rowConflicts = Math.min(...conflictParser(possibleRookRow))
-  let columnConflicts = Math.min(...conflictParser(possibleRookColumn))
-  console.log(columnConflicts)
-  
+
+  //array of digits of conflicts, numerical order
+  let columnConflictsArray = conflictParser(possibleRookColumn)
+  //difference between active position and conflicts
+  let absolutePosition = conflictParser(possibleRookColumn).map(occupiedDigit =>  {
+    return  Math.abs(positionDigit - occupiedDigit)
+  })
+  let closestDigit = Math.min(...absolutePosition)
+  //get the element in columnConflictsArray that is closest to active position **need to determine big or small
+  let indexOfSmallestConflict = absolutePosition.indexOf(closestDigit)
+  let closestDigitPosition = columnConflictsArray[indexOfSmallestConflict]
+  let closestBlockerCompletePos = positionLetter + closestDigitPosition
+
+  console.log(positionLetter + closestDigitPosition)
+  console.log(possibleRookColumn)
+  console.log(position)
+  //parse new possible moves within the column.  Small conflict --> position --> big conflict
+  possibleRookColumn = 
+  [...possibleRookColumn.slice(possibleRookColumn.indexOf(position)),
+    ...possibleRookColumn.slice(possibleRookColumn.indexOf(closestBlockerCompletePos))]
+  console.log(possibleRookColumn)
+
   let possibleRookMoves = possibleRookColumn.concat(possibleRookRow)
+
   //remove occupied squares
+
   possibleRookMoves = possibleRookMoves.map((square, index) => {
     if (occupiedPositions.indexOf(square) === -1) {
       return square

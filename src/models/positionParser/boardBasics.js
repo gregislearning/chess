@@ -6,7 +6,7 @@ const boardBasics = (position, boardState) => {
   //array 1-8
   let column = Array.from({length: 8}, (el, index) => index + 1)
   //each piece needs to check the board relative to their position and  destination
-  return positionLetter, positionDigit, occupiedPositions, row, column
+  return [positionLetter, positionDigit, occupiedPositions, row, column]
 }
 
 export default boardBasics
