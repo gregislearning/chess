@@ -62,7 +62,7 @@ export default {
             ...state, 
             position: payload.position, 
             possibleTiles: 
-              [...rookPosition(payload.color, payload.position, payload.boardState)]}
+              [...rookPosition(payload.position, payload.boardState)]}
       }
       return {...state }
     }
