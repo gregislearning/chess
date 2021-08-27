@@ -6,57 +6,75 @@ let row = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 let column = Array.from({length: 8}, (el, index) => index + 1)
 
 //detects all pieces in a potential moves array
-const conflictParser = array => {
+const conflictParser = (array, output) => {
   return array.map(square => {
     if (occupiedPositions.indexOf(square) !== -1) {
       return square
     }
   }).filter(element => element !== undefined).map(square => {
     let arrayDigit = square.split('')[1]
-    return parseInt(arrayDigit)
+    let arrayLetter = square.split('')[0]
+    return output === "number" ? parseInt(arrayDigit) : arrayLetter
   })
 }
 
-const rookPosition = (piece, position, boardState) => {
+const rookPosition = (position, boardState) => {
   positionLetter = position.split('')[0]
   positionDigit = parseInt(position.split('')[1])
   occupiedPositions = boardState.map(tile => (tile.position))
   
   //each piece needs to check the board relative to their position and  destination
   //get all of the Rows (A-H), excluding current position
-  let rowIndex = row.indexOf(positionLetter.toLowerCase())
-  let slicedRow = [...row.slice(0,rowIndex), ...row.slice(rowIndex + 1)]
 
   //get all of the columns (1-8), excluding current position
-  let columnIndex = column.indexOf(positionDigit)
-  let slicedColumn = [...column.slice(0, columnIndex), ...column.slice(columnIndex + 1)]
-  let possibleRookColumn = slicedColumn.map((element, index) => positionLetter + slicedColumn[index])
-  let possibleRookRow = slicedRow.map((element) => element + String(positionDigit))
+  let possibleRookColumn = column.map(index => positionLetter + index)
+  let possibleRookRow = row.map((element) => element + String(positionDigit))
   //detect blocked tiles
-
   //array of digits of conflicts, numerical order
-  let columnConflictsArray = conflictParser(possibleRookColumn)
+  let columnConflictsArray = conflictParser(possibleRookColumn, "number")
+  let rowConflictsArray = conflictParser(possibleRookRow, "letter")
   //difference between active position and conflicts
-  let absolutePosition = conflictParser(possibleRookColumn).map(occupiedDigit =>  {
-    return  Math.abs(positionDigit - occupiedDigit)
+  let absoluteRowPosition = rowConflictsArray.map(occupiedLetter => {
+    return positionLetter.charCodeAt(0) - occupiedLetter.charCodeAt(0)
   })
-  let closestDigit = Math.min(...absolutePosition)
-  //get the element in columnConflictsArray that is closest to active position **need to determine big or small
-  let indexOfSmallestConflict = absolutePosition.indexOf(closestDigit)
-  let closestDigitPosition = columnConflictsArray[indexOfSmallestConflict]
-  let closestBlockerCompletePos = positionLetter + closestDigitPosition
+  let absoluteColPosition = columnConflictsArray.map(occupiedDigit =>  {
+    return positionDigit - occupiedDigit
+  })
+  //horizontal movement
+  let negativeRowPosition
+  let positiveRowPosition = absoluteRowPosition.filter(num => num > 0).sort()[0] || undefined
+  if (absoluteRowPosition.sort()[0] < 1) {
+    negativeRowPosition= absoluteRowPosition.sort()[0]
+  }
+  if (negativeRowPosition && positiveRowPosition) {
+    possibleRookRow = possibleRookRow.slice(possibleRookRow.indexOf(position) - positiveRowPosition, possibleRookRow.indexOf(position) - negativeRowPosition)
+  }
+  else if (negativeRowPosition && !positiveRowPosition) {
+    possibleRookRow = possibleRookRow.slice(0, possibleRookRow.indexOf(position) - negativeRowPosition)
+  }
+  else if (positiveRowPosition && !negativeRowPosition) {
+    possibleRookRow = possibleRookRow.slice(possibleRookRow.indexOf(position) - positiveRowPosition, possibleRookRow.length)
+  }
 
-  console.log(positionLetter + closestDigitPosition)
-  console.log(possibleRookColumn)
-  console.log(position)
-  //parse new possible moves within the column.  Small conflict --> position --> big conflict
-  possibleRookColumn = 
-  [...possibleRookColumn.slice(possibleRookColumn.indexOf(position)),
-    ...possibleRookColumn.slice(possibleRookColumn.indexOf(closestBlockerCompletePos))]
-  console.log(possibleRookColumn)
+  //vertical movement
+  let negativeColPosition
+  let positiveColPosition
 
+  if (absoluteColPosition.sort()[0] < 1) {
+    negativeColPosition = absoluteColPosition.sort()[0]
+    positiveColPosition = absoluteColPosition.filter(num => num > 0)[0]
+  }
+  
+  if (negativeColPosition && positiveColPosition) {
+    possibleRookColumn = possibleRookColumn.slice(possibleRookColumn.indexOf(position) - positiveColPosition, possibleRookColumn.indexOf(position) - negativeColPosition)
+  }
+  else if (negativeColPosition && !positiveColPosition) {
+    possibleRookColumn = possibleRookColumn.slice(0, possibleRookColumn.indexOf(position) - negativeColPosition)
+  }
+  else if (positiveColPosition && !negativeColPosition) {
+    possibleRookColumn = possibleRookColumn.slice(possibleRookColumn.indexOf(position) - positiveColPosition, possibleRookColumn.length)
+  }
   let possibleRookMoves = possibleRookColumn.concat(possibleRookRow)
-
   //remove occupied squares
 
   possibleRookMoves = possibleRookMoves.map((square, index) => {
@@ -64,7 +82,6 @@ const rookPosition = (piece, position, boardState) => {
       return square
     }
     if (occupiedPositions.indexOf(square) !== -1) {
-      let conflictLetter = square.split('')[0]
       //occupied tile number
       let conflictNumber = square.split('')[1]
       if (positionDigit < conflictNumber) {
@@ -73,9 +90,6 @@ const rookPosition = (piece, position, boardState) => {
     }
   })
 
-  // if rookNumber < blockerNumber => block all > blockerNumber
-  // else if rookNumber > blockerNumber => block all <blockerNumber
-  // Rows?
   return possibleRookMoves
 } 
 
