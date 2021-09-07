@@ -41,6 +41,14 @@ export default {
     { piece: "rook", color: "white"}},
     {position: "h8", status: 
     { piece: "rook", color: "black"}},
+    {position: "f8", status:
+    { piece: "bishop", color: "black"}},
+    {position: "c8", status:
+    { piece: "bishop", color: "black"}},
+    {position: "f1", status:
+    { piece: "bishop", color: "white"}},
+    {position: "c1", status:
+    { piece: "bishop", color: "white"}}
   ],
   reducers: {
     move(state, payload) {

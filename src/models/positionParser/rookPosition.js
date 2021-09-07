@@ -6,9 +6,16 @@ let row = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 let column = Array.from({length: 8}, (el, index) => index + 1)
 
 //detects all pieces in a potential moves array
-const conflictParser = (array, output) => {
+export const conflictParser = (array, occupiedArray, output="none",) => {
+  if (output === "none") {
+    return array.map(square => {
+      if (occupiedArray.indexOf(square) !== -1) {
+        return square
+      }
+    })
+  }
   return array.map(square => {
-    if (occupiedPositions.indexOf(square) !== -1) {
+    if (occupiedArray.indexOf(square) !== -1) {
       return square
     }
   }).filter(element => element !== undefined).map(square => {
@@ -31,8 +38,8 @@ const rookPosition = (position, boardState) => {
   let possibleRookRow = row.map((element) => element + String(positionDigit))
   //detect blocked tiles
   //array of digits of conflicts, numerical order
-  let columnConflictsArray = conflictParser(possibleRookColumn, "number")
-  let rowConflictsArray = conflictParser(possibleRookRow, "letter")
+  let columnConflictsArray = conflictParser(possibleRookColumn, occupiedPositions, "number")
+  let rowConflictsArray = conflictParser(possibleRookRow, occupiedPositions, "letter")
   //difference between active position and conflicts
   let absoluteRowPosition = rowConflictsArray.map(occupiedLetter => {
     return positionLetter.charCodeAt(0) - occupiedLetter.charCodeAt(0)
