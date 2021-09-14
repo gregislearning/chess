@@ -48,7 +48,17 @@ export default {
     {position: "f1", status:
     { piece: "bishop", color: "white"}},
     {position: "c1", status:
-    { piece: "bishop", color: "white"}}
+    { piece: "bishop", color: "white"}},
+    {position: "g8", status:
+    { piece: "knight", color: "black"}},
+    {position: "b8", status:
+    { piece: "knight", color: "black"}},
+    {position: "g1", status:
+    { piece: "knight", color: "white"}},
+    {position: "b1", status:
+    { piece: "knight", color: "white"}},
+    
+    
   ],
   reducers: {
     move(state, payload) {
