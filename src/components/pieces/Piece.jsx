@@ -3,6 +3,7 @@ import Pawn from './Pawn'
 import Rook from './Rook'
 import Bishop from './Bishop'
 import Knight from './Knight'
+import Queen from './Queen'
 
 const Piece = props => {
   const { piece, id, color } = props
@@ -18,6 +19,9 @@ const Piece = props => {
   }
   else if (piece === "knight") {
     return <Knight id={id} color={color} />
+  }
+  else if (piece === "queen") {
+    return <Queen id={id} color={color} />
   }
 }
 
