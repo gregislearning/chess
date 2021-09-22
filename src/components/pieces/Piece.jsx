@@ -4,6 +4,7 @@ import Rook from './Rook'
 import Bishop from './Bishop'
 import Knight from './Knight'
 import Queen from './Queen'
+import King from './King'
 
 const Piece = props => {
   const { piece, id, color } = props
@@ -22,6 +23,9 @@ const Piece = props => {
   }
   else if (piece === "queen") {
     return <Queen id={id} color={color} />
+  }
+  else  if (piece === "king") {
+    return <King id={id} color={color} />
   }
 }
 
