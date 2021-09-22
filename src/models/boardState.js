@@ -57,8 +57,10 @@ export default {
     { piece: "knight", color: "white"}},
     {position: "b1", status:
     { piece: "knight", color: "white"}},
-    
-    
+    {position: "d1", status:
+    { piece: "king", color: "white"}},
+    {position: "d8", status:
+    { piece: "king", color: "black"}},
   ],
   reducers: {
     move(state, payload) {

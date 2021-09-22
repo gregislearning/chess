@@ -2,6 +2,7 @@ import pawnPosition from './positionParser/pawnPosition'
 import rookPosition from './positionParser/rookPosition'
 import bishopPosition from './positionParser/bishopPosition'
 import knightPosition from './positionParser/knightPosition'
+import kingPosition from './positionParser/kingPosition'
 
 export default {
   name: "positions",
@@ -61,6 +62,14 @@ export default {
         }
       }
       else if (payload.piece === "knight") {
+        return {
+          ...state,
+          position: payload.position,
+          possibleTiles:
+            [...knightPosition(payload.position, payload.boardState)]
+        }
+      }
+      else if (payload.piece === "king") {
         return {
           ...state,
           position: payload.position,
