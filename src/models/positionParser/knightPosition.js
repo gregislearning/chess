@@ -1,5 +1,3 @@
-import { conflictParser } from './rookPosition'
-
 let positionLetter
 let positionDigit
 let occupiedPositions
