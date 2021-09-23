@@ -83,7 +83,7 @@ export default {
           ...state,
           position: payload.position,
           possibleTiles:
-            [...knightPosition(payload.position, payload.boardState)]
+            [...kingPosition(payload.position, payload.boardState)]
         }
       }
       return {...state }
