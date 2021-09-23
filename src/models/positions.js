@@ -3,6 +3,7 @@ import rookPosition from './positionParser/rookPosition'
 import bishopPosition from './positionParser/bishopPosition'
 import knightPosition from './positionParser/knightPosition'
 import queenPosition from './positionParser/queenPosition'
+import kingPosition from './positionParser/kingPosition'
 
 export default {
   name: "positions",
@@ -75,6 +76,14 @@ export default {
           position: payload.position,
           possibleTiles:
             [...queenPosition(payload.position, payload.boardState)]
+        }
+      }
+      else if (payload.piece === "king") {
+        return {
+          ...state,
+          position: payload.position,
+          possibleTiles:
+            [...kingPosition(payload.position, payload.boardState)]
         }
       }
       return {...state }
