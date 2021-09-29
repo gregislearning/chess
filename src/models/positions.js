@@ -15,20 +15,21 @@ export default {
     showPossiblePositions(state, payload) {
       if (payload.piece === "pawn") {
         if (payload.color === "black") {
-          if (pawnPosition("pawn", payload.position, undefined, payload.boardState).digit === 7) {
+          if (pawnPosition("black", payload.position, undefined, payload.boardState).digit === 7) {
             return {
               ...state, 
               position: payload.position, 
               possibleTiles: 
-                [pawnPosition("pawn", payload.position, -1, payload.boardState), 
-                pawnPosition("pawn", payload.position, -2, payload.boardState)],
+                [...pawnPosition("black", payload.position, -1, payload.boardState), 
+                ...pawnPosition("black", payload.position, -2, payload.boardState),
+              ]
               }
           }
           else {
             return {
               ...state, 
               position: payload.position, 
-              possibleTiles: [pawnPosition("pawn", payload.position, -1, payload.boardState)]}
+              possibleTiles: [...pawnPosition("black", payload.position, -1, payload.boardState)]}
           }
       }
         if (pawnPosition("pawn", payload.position, undefined, payload.boardState).digit === 2) {
@@ -36,15 +37,17 @@ export default {
             ...state, 
             position: payload.position, 
             possibleTiles:
-              [pawnPosition("pawn", payload.position, 1, payload.boardState),
-              pawnPosition("pawn", payload.position, 2, payload.boardState)],
+              [...pawnPosition("white", payload.position, 1, payload.boardState),
+              ...pawnPosition("white", payload.position, 2, payload.boardState),
+            ]
+              ,
             }
         }
         else {
           return {
             ...state, 
             position: payload.position, 
-            possibleTiles: [pawnPosition("pawn", payload.position, 1, payload.boardState)]}
+            possibleTiles: [...pawnPosition("white", payload.position, 1, payload.boardState)]}
         }
       }
       else if (payload.piece === "rook") {

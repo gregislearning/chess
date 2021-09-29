@@ -25,12 +25,15 @@ const Board = props => {
   }
 
   const handleClick = e => {
-    
-    if (e.target instanceof HTMLDivElement && isPieceSelected) {
+    // console.log(possibleTiles)
 
+    if (e.target instanceof HTMLDivElement && isPieceSelected) {
       if (possibleTiles && possibleTiles.indexOf(e.target.id) !== -1) {
         dispatch({type:'boardState/move', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
       }
+      // else if (possibleTiles && possibleTiles.indexOf(e.target.id) !== -1 && ) {
+
+      // }
       else {
         console.log('not a possible position')
       }
