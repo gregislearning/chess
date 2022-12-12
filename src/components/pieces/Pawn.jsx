@@ -16,8 +16,12 @@ const Pawn = props => {
   const boardState = useSelector(state => {
     return state.boardState
   })
-  
+  const takePieceState = useSelector(state => {
+    return state.boardState.takePiece
+  })
+  // console.log(takePieceState)
   const handleClick = e => {
+    // console.log('target piece')
     dispatch({ type: "positions/updatePosition", payload: {position: currentPosition, piece: "pawn"}})
     dispatch({ 
       type: "positions/showPossiblePositions", 

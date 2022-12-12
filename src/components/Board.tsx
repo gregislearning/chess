@@ -1,20 +1,26 @@
 import React, { useEffect, useState, useContext } from 'react'
 import styles from './Board.module.scss'
-import Tile from './Tile'
+import Tile from './Tile.jsx'
 import ActiveTileContext from '../context/ActiveTileContext'
 import { useSelector, useDispatch } from 'react-redux'
 
-const Board = props => {
+interface Props {
+  outsideClick: boolean
+}
+
+const Board = (props: Props) => {
   const dispatch = useDispatch()
-  const [isPieceSelected, setIsPieceSelected] = useState(false)
+  const [pieceSelected, setPieceSelected] = useState(false)
   const { activeTile, setActiveTile } = useContext(ActiveTileContext) 
   const { outsideClick } = props
-  let columns = new Array(8)
-  let tileIds = [...columns].map(() => [])
-  const currentPosition = useSelector((state) => {
+  let columns: any[] = new Array(8)
+  let tileIds: any[] = [...columns].map(() => [])
+
+  //To Do: change state props
+  const currentPosition = useSelector((state: any) => {
     return state.positions
   })
-  const possibleTiles = useSelector((state) => {
+  const possibleTiles = useSelector((state: any) => {
     return activeTile !== null ? (state.positions.possibleTiles) : null
   })
 
@@ -24,40 +30,49 @@ const Board = props => {
     }
   }
 
-  const handleClick = e => {
-    // console.log(possibleTiles)
-
-    if (e.target instanceof HTMLDivElement && isPieceSelected) {
+  const handleClick = (e: any) => {
+    //take piece
+    if (e.target instanceof HTMLImageElement && pieceSelected) {
+      // if target is within attacking positions
+      if (possibleTiles.indexOf(e.target.id) !== -1) {
+        dispatch({type:'boardState/takePiece', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
+        e.stopPropagation()
+        e.preventDefault()
+        console.log("currentPosition: ", currentPosition, "targetid: ", e.target.id)
+      }
+     
+    }
+    //confirm move piece
+    else if (e.target instanceof HTMLDivElement && pieceSelected) {
       if (possibleTiles && possibleTiles.indexOf(e.target.id) !== -1) {
         dispatch({type:'boardState/move', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
       }
-      // else if (possibleTiles && possibleTiles.indexOf(e.target.id) !== -1 && ) {
-
-      // }
       else {
         console.log('not a possible position')
       }
-      setIsPieceSelected(false)
+      setPieceSelected(false)
       setActiveTile(null)
     }
+    //select piece
     else {
       let pieceIdentifier = e.target.className.split("_")
       if (pieceIdentifier.indexOf('Pieces') !== -1) {
-        setIsPieceSelected(true)
+        setPieceSelected(true)
       } 
     }
   }
   useEffect(()=> {
     if (outsideClick) {
       setActiveTile(null)
-      setIsPieceSelected(false)
+      setPieceSelected(false)
     }
   }, [outsideClick] )
+  
   return (
     <div className={styles.board} onClick={handleClick}>
       {tileIds.reverse().map((tileRow, index) => {
         return (
-          tileRow.map((tileId, secondIndex) => {
+          tileRow.map((tileId: number, secondIndex: number) => {
             if (index % 2 === 0) {
               //if index is even, start with black
               //if secondIndex is even, black

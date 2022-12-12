@@ -41,7 +41,7 @@ function App() {
   
   return (
       <ActiveTileContext.Provider value={{activeTile, setActiveTile}}>
-        <NewGame />
+        <NewGame /> {/* work in prgoress */}
         <div ref={boardRef} className={styles.App} >
           <Board outsideClick={outsideClick}/>
         </div>

@@ -27,6 +27,9 @@ const Piece = props => {
   else  if (piece === "king") {
     return <King id={id} color={color} />
   }
+  else if (piece === "") {
+    return <></>
+  }
 }
 
 export default Piece
