@@ -34,11 +34,11 @@ const Board = (props: Props) => {
     //take piece
     if (e.target instanceof HTMLImageElement && pieceSelected) {
       // if target is within attacking positions
-      if (possibleTiles.indexOf(e.target.id) !== -1) {
+      if (possibleTiles && possibleTiles.indexOf(e.target.id) !== -1) {
         dispatch({type:'boardState/takePiece', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
         e.stopPropagation()
         e.preventDefault()
-        console.log("currentPosition: ", currentPosition, "targetid: ", e.target.id)
+        dispatch({ type: 'boardState/removePiece', payload: {prevPosition: activeTile, nextPosition: e.target.id}})
       }
      
     }

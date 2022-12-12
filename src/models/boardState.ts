@@ -68,7 +68,7 @@ export default {
   ],
   takePiece: false,
   reducers: {
-    move(state, payload) {
+    move(state: any, payload: any) {
       //something like prevPosition: a2, position: a4, piece: pawn, color: white
       for (let i = 0; i < state.length; i++) {
         if (payload.prevPosition === state[i].position) {
@@ -78,37 +78,46 @@ export default {
       }
       return [...state]
     },
-    prepTakeState(state) {
+    prepTakeState(state: any) {
       // console.log('prep take')
       // state.takePiece = true
       // return state.takePiece
       return [...state]
     },
-    takePiece(state, payload) {
+    takePiece(state: any, payload: any) {
       for (let i = 0; i < state.length; i++) {
         if (payload.nextPosition === state[i].position) { // locate destination of attack (state[i].pos)
-          function attackingPiece(board) { // board comes  from js func find
+          const attackingPiece = (board: any) => { // board comes  from js func find
             // console.log(board)
             return board.position === payload.prevPosition
           }
-          console.log("Payload: ", payload)
-          console.log(state.find(attackingPiece)) // find attacking piece
+          // console.log("Payload: ", payload)
+          // console.log(state.find(attackingPiece)) // find attacking piece
           // To Do: (Nov 30, 2022) Remove attacked piece residing at state[i].pos
           state[i].status.piece = state.find(attackingPiece).status.piece
           state[i].status.color = state.find(attackingPiece).status.color
           
 
-          console.log(state[i])
+          console.log("take piece: ", state[i])
           
         }
-        if (payload.prevPosition === state[i].position) {
-          // state[i] = {position: payload.prevPosition, status: {peice: "none", color: ""}}
-        }
         // if (payload.prevPosition === state[i].position) {
-        //   state[i].position = payload.nextPosition
+        //   console.log("move attacker: ", state[i])
+        //   // state[i].position = 'd5'
         // }
       }
       return [...state]
-    }
+    },
+    // temporary solution for removing attacker.  Had trouble with changing state twice in takePiece
+    removePiece(state: any, payload: any) {
+      for (let i = 0; i < state.length; i++) {
+          if (payload.prevPosition === state[i].position) {
+            console.log("move attacker: ", state[i])
+            state[i].position = ''
+          }
+        }
+        return [...state]
+      }
+
   }
 }
