@@ -19,6 +19,8 @@ const Tile = (props) => {
   })
   // console.log(boardState)
   let isPossible = possibleTiles ? possibleTiles.indexOf(id) !== -1 ? true : false : null
+
+  //Tile color, tile piece
   return (
     <div 
       color={color} 
@@ -30,8 +32,9 @@ const Tile = (props) => {
     >
       {boardState.map(tile => {
         if (tile.position === id && tile.status.piece !== "none") {
-          return <Piece key={id} color={tile.status.color} id={id} piece={tile.status.piece} />
+          return <Piece key={`${id}-${tile.status.color}`} color={tile.status.color} id={id} piece={tile.status.piece} />
         }
+        
       })}
     </div>
   )
